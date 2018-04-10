@@ -1,5 +1,5 @@
 ---
-title: VUE开启 keep-alive时的一些坑坑坑
+title: VUE关于keep-alive的一些坑
 date: 2018-02-08 20:17:19
 tags: javascript
 ---
