@@ -33,7 +33,7 @@ function defineReactive(data, key, val, fn) {
     }, 
     set: function (newVal) {
       if (newVal === val) return
-      // 如果新值和老值不相同则返回回调函数fn
+      // 如果新值和老值不相同则执行回调函数fn
       fn && fn(newVal)
       val = newVal;
     }
@@ -42,4 +42,54 @@ function defineReactive(data, key, val, fn) {
 ```
 
 ### computed
-待续..
+computed的话，原理和watch操作类似，不同的是需要在数值变化的时候添加执行相应的一些操作，上源码：
+```
+// computed 函数
+function computed(ctx, obj) {
+  let computedKeys = Object.keys(obj)//computed 对象集合
+  let computedFn = [];//computedFn存储computed计算操作
+  let computedObj = computedKeys.reduce((total, next) => {
+    computedFn.push(function () {
+      ctx.setData({ [next]: obj[next].call(ctx) })
+    })
+    total[next] = obj[next].call(ctx);
+    return total
+  }, {})
+  // 首次加载先设置一次
+  ctx.setData(computedObj)
+  // 绑定数据变化时，动态computed
+  let dataKeys = Object.keys(ctx.data)
+  dataKeys.forEach(dataKey => {
+    defineReactive(ctx.data, dataKey, ctx.data[dataKey], false, computedFn)
+  })
+}
+
+/**
+ * 检测函数的变化
+ * data 当前上下文的data，key 键名，val 键值，fn 回调函数
+ */
+function defineReactive(data, key, val, fn, computedFn) {
+  // 通过 Object.defineProperty进行set操作拦截
+  let subs = [];
+  Object.defineProperty(data, key, {
+    configurable: true,
+    enumerable: true,
+    get: function () {
+      if (data.$target) {
+        subs.push(data.$target)
+      }
+      return val
+    },
+    set: function (newVal) {
+      if (newVal === val) return
+      // 如果新值和老值不相同则返回回调函数 fn
+      fn && fn(newVal)
+      val = newVal;
+      if (computedFn.length) {
+        // 执行 computed的更新设置值
+        computedFn.forEach(sub => sub());
+      }
+    },
+  })
+}
+```

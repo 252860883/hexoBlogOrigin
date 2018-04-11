@@ -1,5 +1,5 @@
 ---
-title: 动手实现 websocket 通信
+title: 动手实现前后端 websocket 通信
 date: 2018-04-09 15:24:20
 tags: [html5,nodejs]
 ---
@@ -10,7 +10,7 @@ tags: [html5,nodejs]
 
 ### socket.io
 
-因为后端是用nodejs写的，所以这里引入第三方插件 **socket.io**，来实现其功能。
+后端是用nodejs写的，所以这里引入第三方插件 **socket.io**，来实现其功能。
 
  - **服务器端常用API**
  **socket.emit()**：向建立该连接的客户端发送消息
@@ -23,3 +23,6 @@ tags: [html5,nodejs]
  - **客户端常用API**
  **socket.emit()**：向服务端发送消息
  socket.on()：监听服务端发来的信息
+
+
+
