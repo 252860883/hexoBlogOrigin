@@ -51,13 +51,13 @@ bundle-loader 路由懒加载
 
 
 ### JSX
-
+```
 const element = (
   <h1>
     Hello, {formatName(user)}!
   </h1>
 );
-
+```
 
 ### 渲染 DOM
 
@@ -68,13 +68,12 @@ ReactDOM.render(
 
 
 ### 组件 
-
+```
 class Welcome extends React.Component {
   render() {
     return <h1>Hello, {this.props.name}</h1>;
   }
 }
-
 <Welcome name=‘Du Honghui’   />
 
 State
@@ -101,7 +100,7 @@ render() {
  }
 
 }
-
+```
 ### 生命周期钩子
 
 componentDidMount()	组件插入到dom中的时候执行
@@ -110,7 +109,7 @@ componentWillUnmount()	组件被移除的时候执行
 
 ### 事件
 书写 驼峰式
-
+```
  function handleClick(e) {
     e.preventDefault();
     console.log('The link was clicked.');
@@ -121,15 +120,17 @@ componentWillUnmount()	组件被移除的时候执行
       Click me
     </ a>
   );
-
+```
 在组件中的时候需要添加 this.handleClick
 
 处理回调函数的 this：
 方法1: 在constructor中添加 bind 绑定 this
-
+```
 this.handleClick = this.handleClick.bind(this);
-
+```
 方法2: 使用属性初始化器(箭头函数)绑定回调函数
+```
 handleClick = () => {
     console.log('this is:', this);
   }
+```
