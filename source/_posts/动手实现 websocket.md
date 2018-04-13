@@ -24,5 +24,45 @@ tags: [html5,nodejs]
  **socket.emit()**：向服务端发送消息
  socket.on()：监听服务端发来的信息
 
+ ### 项目源码分析
+ - **服务器端**
+ ```
+    var io = require('socket.io')(server);
+    io.sockets.on('connection', function (socket) {
+        // 收到发送者的消息
+        socket.on('chatInfo', function (data) {
+            chat.drawChatdb(data);
+            // 当发送者发出消息，同时发出接收者接受消息的信号
+            socket.broadcast.emit(data.saveId, data.content);
+        });
+    });
+ ```
+  - **客户端**
+  ```
+    //引入socket.io
+    import io from "socket.io-client";
+    let serverPath = `${location.protocol}//${location.host}:4000`;
+    const socket = io("http://localhost:4000");
+
+    //接受对方发送的消息
+    socket.on(self.userId, function(data) {
+        data.stuId = data.sendId;
+        self.chatLists.push(data);
+        self.scrollToBottom();
+    });
+
+    //发送消息
+    socket.emit("chatInfo", {
+        sendId: this.userId.toString(),
+        saveId: this.chatInfo.stuId.toString(),
+        content: this.sendInfoNow,
+        date: new Date().getTime()
+    });
+
+  ```
+
+  ###源码地址
+  ![点击进入项目源码](https://github.com/252860883/StudyRoom-System)
+
 
 
