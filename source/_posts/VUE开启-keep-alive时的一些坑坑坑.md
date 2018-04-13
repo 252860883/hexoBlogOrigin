@@ -1,7 +1,7 @@
 ---
-title: VUE关于keep-alive的一些坑
+title: 爬 VUE关于keep-alive的一些坑
 date: 2018-02-08 20:17:19
-tags: javascript
+tags: [javascript,VUE]
 ---
 在做大牛工资条的时候遇到一个需求是需要固定页面不进行渲染的，这时就用到了 keep-alive了。  
 ### keep-alive简单介绍

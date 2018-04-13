@@ -1,5 +1,5 @@
 ---
-title: MongoDB和Mongoose入门笔记
+title: MongoDB 和 MongooseODM 入门
 date: 2018-02-24 23:45:58
 tags:
 ---
