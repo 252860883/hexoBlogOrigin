@@ -4,7 +4,7 @@ date: 2018-04-09 15:24:20
 tags: [html5,nodejs]
 ---
 
-毕设的项目里面是一个校园约自习室的一个网站，为了增强其互动性，我决定加入聊天系统来实现学生和管理员之间的联系。提到聊天自习室这类字眼，那就一定联想到 H5新加入的 websocket了。
+毕设做的是一个校园约自习室网站，为了增强其互动性，我决定加入聊天系统来实现学生和管理员之间的联系。提到聊天自习室这类字眼，那就肯定联想到H5新加入的 websocket了。
 
 > WebSocket是HTML5开始提供的一种浏览器与服务器间进行全双工通讯的网络技术。在WebSocket API中，浏览器和服务器只需要要做一个握手(handshaking)的动作，然后，浏览器和服务器之间就形成了一条快速通道。两者之间就直接可以数据互相传送。
 
@@ -25,7 +25,8 @@ tags: [html5,nodejs]
  socket.on()：监听服务端发来的信息
 
  ### 项目源码分析
- - **服务器端**
+ 
+- **服务器端**
  ```
     var io = require('socket.io')(server);
     io.sockets.on('connection', function (socket) {
@@ -37,7 +38,8 @@ tags: [html5,nodejs]
         });
     });
  ```
-  - **客户端**
+
+- **客户端**
   ```
     //引入socket.io
     import io from "socket.io-client";
@@ -62,7 +64,7 @@ tags: [html5,nodejs]
   ```
 
   ###源码地址
-  ![点击进入项目源码](https://github.com/252860883/StudyRoom-System)
+  [点击进入项目源码](https://github.com/252860883/StudyRoom-System)
 
 
 
