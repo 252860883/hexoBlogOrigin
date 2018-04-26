@@ -5,52 +5,60 @@ tags: React
 ---
 
 ### 脚手架 create-react-app
+create-react-app是github上面开源点星最多的react脚手架,也是官方比较推荐的，所以打算用这个架子上手了。后续可以再学习用webpack去自己搭一套。
 
-#### 安装 
+- 安装 
+```
 npm install -g create-react-app
-
-#### 创建
+```
+- 创建
+```
 create-react-app my-app
 cd my-app
-
-#### 运行
+```
+- 运行
+```
 npm start (默认3000端口)
-
-#### api开发请求代理
-只需要在package.json中加入 
+```
+- api开发请求代理
+开发环境时的域名重定向，只需要在package.json中加入 
+```
 “proxy”:”http://localhost:3031/”
-
-#### 打包文件路径不对问题
+```
+- 打包文件路径不对问题
 在package.json中加入  “homepage”：“.”
 
-#### Webpack配置文件都是隐藏的
+- 找到webpack配置文件
+默认情况下，为了便于开发，该脚手架直接隐藏掉了webpack配置文件，如果想要自己手动修改一些配置文件怎么办呢？直接：
+```
 指令 npm run eject
+```
 
-如果报错，如下图，
-￼
-是因为git仓库有没有提交的文件，先commit了在运行指令就可以了
-
-#### 安装 sass/less
+- 安装 sass/less
+```
 npm install sass-loader node-sass --save-dev
-
-安装后修改config -> webpack.config.dev.js 和 webpack.config.prod.js ，分别在css的loader配置里面修改两处：
+```
+  安装后修改config -> webpack.config.dev.js 和 webpack.config.prod.js ，分别在css的loader配置里面修改两处：
 一是 test: /\.css$/ 增加scss和sass；
 二是use里面最后再加个loader，直接加 "sass-loader" 就可以了，也不用配置别的了。
 
 
-#### 添加 ant-design
+- 添加 ant-design
+```
 npm install antd babel-plugin-import --save-dev
-配置，按需加载
-
- // 配置ant-design的按需加载
+```
+  配置，按需加载
+```
+  // 配置ant-design的按需加载
  plugins: [
       ['import', [{ libraryName: "antd", style: 'css' }]],
  ],
-
-bundle-loader 路由懒加载
+```
+  bundle-loader 路由懒加载
 
 
 ### JSX
+JSX是react特有的一个语法扩展。在react中通常用JSX来描述界面，它是写在JavaScript里的。这也是react倡导的 “all in js”，它和vue的单文件组件是不一样的。
 ```
 const element = (
   <h1>
@@ -60,12 +68,12 @@ const element = (
 ```
 
 ### 渲染 DOM
-
+```
 ReactDOM.render(
   Element,
   document.getElementById('root')
 );
-
+```
 
 ### 组件 
 ```
@@ -98,14 +106,11 @@ componentDidMount() {
 render() {
     return <h1>Hello, {this.state.name}</h1>;
  }
-
 }
 ```
-### 生命周期钩子
-
-componentDidMount()	组件插入到dom中的时候执行
-
-componentWillUnmount()	组件被移除的时候执行
+- 组件生命周期钩子
+  componentDidMount()	组件插入到dom中的时候执行
+  componentWillUnmount()	组件被移除的时候执行
 
 ### 事件
 书写 驼峰式
@@ -134,3 +139,6 @@ handleClick = () => {
     console.log('this is:', this);
   }
 ```
+
+### 总结
+作为目前最流行的MVVM框架React和vue有很多异同点，那就在这来总结一下吧，来更深刻的对两个框架理解，并有能力知道在何种场景适合使用vue或者react来进行快速开发。
