@@ -25,7 +25,7 @@ setCookie(name, value, iDay) {
 	oDate.setDate(oDate.getDate() + iDay);
 	document.cookie = name + '=' + value + ';expires=' + oDate;
 
-},
+}
  ```
 
     
