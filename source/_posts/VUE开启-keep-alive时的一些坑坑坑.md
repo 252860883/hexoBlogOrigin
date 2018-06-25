@@ -1,5 +1,5 @@
 ---
-title: 爬 VUE关于keep-alive的一些坑
+title: 爬下VUE中keep-alive的一些坑
 date: 2018-02-08 20:17:19
 tags: [javascript,VUE]
 ---
