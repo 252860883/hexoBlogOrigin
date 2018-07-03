@@ -33,9 +33,10 @@ var obj = {
 
 
 ### rest参数和拓展运算符
->rest参数和拓展运算符虽然都是“...”的形态，但是两者的作用范围却截然不同
+rest参数和拓展运算符虽然都是“...”的形态，但是两者的作用范围却截然不同
 
-rest参数：Rest就是为解决传入的参数数量不一定,数组的相关的方法都可以用
+**rest参数**：Rest就是为解决传入的参数数量不一定,数组的相关的方法都可以用
+
 ```
 function realSort(...rest) {
     console.log(rest.sort((a,b)=>a-b))
@@ -43,7 +44,7 @@ function realSort(...rest) {
 realSort(1,10,3) // [ 1, 3, 10 ]
 ```
 
-拓展运算符：可以看作是rest参数的逆运算（展开数组操作），将数组转为字符串
+**拓展运算符**：可以看作是rest参数的逆运算（展开数组操作），将数组转为字符串
 ```
 console.log(1,2,...[4,5,6],7,8)  // 1 2 4 5 6 7 8
 ```
@@ -51,13 +52,15 @@ console.log(1,2,...[4,5,6],7,8)  // 1 2 4 5 6 7 8
 ### 字符串
 
 **includes**
->判断字符串是否有某值
+判断字符串是否有某值
+
 ```
 console.log("abcd".includes('a'))   //true
 console.log("abcd".includes('z'))   //false
 ```
 **repeat**
->复制字符串
+复制字符串
+
 ```
 console.log("abcd".repeat(3))   //abcdabcdabcd
 ```
@@ -92,16 +95,69 @@ import * as additionUtil from 'math/addition';
 ```
  
 ### Maps 和 WeakMaps
+Maps 在 JavaScript 中是一个非常必须的数据结构.在ES6之前通过object实现哈希表,但是Es6引入maps结构后有一些优点
+1. map可以使用任何类型的值作为key值，允许对值进行 set、get 和 search
+2. object有原型，原型链上的键名有可能和对象上的键名产生冲突，但是map不会出现这种问题
+3. map可以直接通过 .size计算键值对个数
+
+```
+let map2=new Map([['name','danny'],[true,false]])
+map2.set('key','666')
+console.log(map2.size)  //3
+```
+
+WeakMap 的 key 只能是 Object 类型。原始类型不能作为key值,在原生的WeakMap中,每个键对自己所引用对象的引用是 "弱引用",这意味着,如果没有其他引用和该键引用同一个对象,这个对象将会被当作垃圾回收，即不会发生内存泄漏问题。
+
+```
+var wm1 = new WeakMap();
+wm1.set({}, 37);
+```
+
 
 
 ### Promise
+| 方法 |  结果|
+|--|--|
+| Promise.all |  返回一个promise对象，有一个reject就返回reject|
+| Promise.race |  返回一个promise对象，回调最先解析出的结果|
+| Promise.reject |  返回一个带有拒绝原因reason参数的Promise对象|
+| Promise.resolve |  返回一个以给定值解析后的Promise对象|
 
 ### Generators生成器
+就像 Promises 可以帮我们避免回调地狱，Generators 可以帮助我们让代码风格更整洁－－用同步的代码风格来写异步代码，它本质上是一个可以暂停计算并且可以随后返回表达式的值的函数。
+
+```
+function* gen(){
+    yield 1
+    yield 2
+    yield 3
+}
+
+let g=gen()
+
+console.log('gen:'+g.next().value)  //1
+console.log('gen:'+g.next().value)  //2
+console.log('gen:'+g.next().value)  //3
+```
 
 ### Async Await
+```
+function getJSON(url) {
+  return new Promise(function(resolve, reject) {
+    request(url, function(error, response, body) {
+      resolve(body);
+    });
+  });
+}
+
+async function main() {
+  var data = await getJSON();
+  console.log(data); // NOT undefined!
+}
+```
 
 ### 类
->JavaScript是没有类的概念的，ES6的类只不过是在原先的基础上坐了一层语法糖，看起来更像Java等语言的class
+JavaScript是没有类的概念的，ES6的类只不过是在原先的基础上坐了一层语法糖，看起来更像Java等语言的class
 ```
 class Personal extends Person {
     constructor(name, age, gender, occupation, hobby) {
@@ -117,6 +173,8 @@ class Personal extends Person {
     }
 }
 ```
+
+未完待续...
 
 
 
