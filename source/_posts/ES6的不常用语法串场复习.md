@@ -8,7 +8,8 @@ tags: ['javascript','ES6']
 ### 箭头函数
  1. 匿名函数，不能作为构造函数，不能 new
  2. 没有arguments,可以使用rest参数
- ```
+
+```
 let a=(...arr)=>{
     console.log(arr)  // [1,2,3,4]
 }
@@ -16,6 +17,7 @@ a(1,2,3,4)
 ```
 
 3. 箭头函数不绑定this,会捕获上下文的this值
+
 ```
 var obj = {
     a: 10,
@@ -80,18 +82,6 @@ function body({ eye, mouse } = { eye: 16, mouse: 20 }) {
 body({eye:10,mouse:10}) //10 10
 body()  //16 20
 body({eye:10})  //10 undefined
-```
-
-### 模块
-
-```
-//输出
-module.exports=...
-
-//接收
-import "../a.js"
-import {a} from "../a.js"
-import * as additionUtil from 'math/addition';
 ```
  
 ### Maps 和 WeakMaps
@@ -173,6 +163,36 @@ class Personal extends Person {
     }
 }
 ```
+
+### 模块
+经常谈起模块化主要几种：AMD、CMD、CommonJS以及ES6模块，AMD具体实现是require.js，CMD是sea.js,但是随着前端的工程化发展，这两款在业务开发上已经渐渐退去热度。CommonJS在nodejs服务器段开发下经常被用到，至于ES6模块化也在ES6的普及下渐渐有了起色。
+
+**CommonJS规范**：使用require引入模块，使用exports导出模块
+```
+//导出
+exports.getInfo=function(){
+    console.log('Hello World!')
+}
+
+//引入
+var getInfo=require('./getInfo.js').getInfo
+```
+**ES6 module**:使用import引入模块,使用export导出模块
+```
+//导出
+function getInfo(){
+    console.log('Hello World!')
+}
+
+export getInfo
+export default getInfo
+
+//引入
+import a from './getInfo.js'
+import * as a from './getInfo.js' 
+import { a } from './getInfo.js'
+```
+两者区别：require使用非常简单，它相当于module.exports的传送门，module.exports后面的内容是什么，require的结果就是什么，require运行的结果可以直接赋值给变量，但是import则非常严格，必须是放在文件的开头，而且格式确定，并且不会运行引入的模块，只是将其进行编译。
 
 未完待续...
 
