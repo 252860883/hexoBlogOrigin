@@ -1,7 +1,7 @@
 ---
 title: MongoDB 和 MongooseODM 入门
 date: 2018-02-24 23:45:58
-tags:
+tags: ['nodejs','MongoDB']
 ---
 
 #### 什么是 MongoDB ？有何特点？

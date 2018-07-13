@@ -1,7 +1,7 @@
 ---
 title: 对MVVM的一些理解
 date: 2018-05-24 12:23:14
-tags: JavaScript
+tags: javascript
 ---
 
 ## 为什么会出现MVVM
