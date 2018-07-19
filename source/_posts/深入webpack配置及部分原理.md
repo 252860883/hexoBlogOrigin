@@ -81,7 +81,7 @@ rule.enforce 可以设置 loader 种类，默认为普通，可以设置 “pre�
 
 
 ### 5. Plugin
-Plugin 是用来扩展 Webpack 功能的，处理其他的构建任务，模块转换的工作给 loader 做，剩下的工作由 plugin 完成。，通过在构建流程里注入钩子实现，它给 Webpack 带来了很大的灵活性。plugin安装后需要手动引入。下面以配置sass示例：
+Plugin 是用来扩展 Webpack 功能的，处理其他的构建任务，模块转换的工作给 loader 做，剩下的工作由 plugin 完成。，通过在构建流程里注入钩子实现，它给 Webpack 带来了很大的灵活性。plugin安装后需要手动引入。下面以配置sass示例,注意其中用到了插件`extract-text-webpack-plugin`在webpack 4.x中没有做支持，所以需要这样引入：`npm install extract-text-webpack-plugin@next -D`
 
 ```
 const ExtractTextPlugin = require('extract-text-webpack-plugin') //手动引入
