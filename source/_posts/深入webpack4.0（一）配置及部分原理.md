@@ -109,3 +109,23 @@ module.exports = {
 }
 
 ```
+
+### 6. Resolve
+Webpack 在启动后会从配置的入口模块出发找出所有依赖的模块，Resolve 配置 Webpack 如何寻找模块所对应的文件。 Webpack 内置 JavaScript 模块化语法解析功能，默认会采用模块化标准里约定好的规则去寻找，但你也可以根据自己的需要修改默认的规则。
+比如 resolve.alias可以设置路径的映射,直接使用 components 代替 ./src/components/：
+
+```
+resolve:{
+  alias:{
+    components: './src/components/'
+  }
+}
+```
+
+
+### 总结
+- 想让源文件加入到构建流程中去被 Webpack 控制，配置 entry。
+- 想自定义输出文件的位置和名称，配置 output。
+- 想自定义寻找依赖模块时的策略，配置 resolve。
+- 想自定义解析和转换文件的策略，配置 module，通常是配置 module.rules 里的 Loader，其余包括 parser、noParse等等配置。
+- 其它的大部分需求可能要通过 Plugin 去实现，配置 plugin。
