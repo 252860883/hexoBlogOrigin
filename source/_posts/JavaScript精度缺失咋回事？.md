@@ -58,7 +58,6 @@ console.log(a.toFixed(1))   //0.3
 let b = 0.7-0.5
 console.log(b)  //0.19999999999999996
 console.log(b.toFixed(1))   //0.2
-
 ```
 
 
