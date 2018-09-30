@@ -37,3 +37,77 @@ document.body.appendChild(renderer.domElement);
 
 #### 三者关系
 通俗来讲，我们可以理解为`sence`创建了一个场景，我们向场景里添加物体，然后通过`camera`拍摄，将拍摄的场景交给`renderer`进行渲染。
+
+### 让物体动起来
+
+让物体动起来有两种方法，一种是改变相机`camera`的位置，一种是改变物体`mesh`的位置：
+
+```
+function animate() {
+    // renderer.clear();
+    var a = 0.01
+    // 改变相机的位置
+    // camera.position.y -= a
+    // camera.position.z -= a
+    // camera.position.x -= a
+
+    // 改变物体的位置
+    // mesh.position.z -= 1;//位移
+    mesh.rotation.x -= 0.01;//旋转
+    mesh.rotation.z -= 0.01;//旋转
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate)
+}
+```
+
+#### stats 性能监听
+
+既然涉及到循环了，那肯定是一个耗性能的工作了，在这里我们引入 `stats.js` 来进行性能监测。
+首先引入 `stats.js` ,github地址：https://github.com/mrdoob/stats.js
+```
+ <script src="./stats.js"></script>
+```
+将 stats 相关代码加入我们之前的代码中：
+```
+// 渲染器
+var renderer;
+// 监听器
+var stats;
+function initThree() {
+    console.log(window.innerHeight)
+    width = window.innerWidth
+    height = window.innerHeight
+    renderer = new THREE.WebGLRenderer({
+        antialias: true
+    });
+    renderer.setSize(width, height);
+    document.getElementsByTagName('body')[0].appendChild(renderer.domElement);
+    renderer.setClearColor(0xFFFFFF, 1.0);
+    // 新建一个 stats 实例
+    stats = new Stats();
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
+    document.getElementsByTagName('body')[0].appendChild(stats.domElement);
+}
+
+...
+
+// 动起来
+function animate() {
+    // 改变物体的位置
+    mesh.rotation.x -= 0.01;//旋转
+    mesh.rotation.z -= 0.01;//旋转
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+    // 来统计时间和帧数
+    stats.update();
+}
+```
+
+虽然这个办法可以让物体动起来，但是对于复杂的动画效果还是不适用，这里推荐一个动画引擎 `Tween.js`来实现不规则的动画。
+
+
+
+
