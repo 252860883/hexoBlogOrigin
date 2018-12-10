@@ -139,10 +139,36 @@ function sum(a: number = 0, b: number = 0){
 #### 类型断言
 类型断言（Type Assertion）可以用来手动指定一个值的类型。之前提到过，当 TypeScript 不确定一个联合类型的变量到底是哪个类型的时候，我们只能访问此联合类型的所有类型里共有的属性或方法。但是有时候我们需要在不确定类型的时候就使用其中的一个属性或者方法。所以这时候就需要使用**类型断言**了。但是需注意：类型断言不是类型转换，断言成一个联合类型中不存在的类型是不允许的。
 ```
-function toBoolean(something: string | number): boolean {
-    return <boolean>something;
+function getLength(something: string | number): number {
+    if ((<string>something).length) {
+        return (<string>something).length;
+    } else {
+        return something.toString().length;
+    }
 }
 ```
 
+#### 内置对象
+我们知道 JavaScript 中有很多的内置对象可供使用，那么在 TypeScript 中呢，可以直接当做定义好了的类型。
+```
+let in_b: Boolean = new Boolean(1);
+let in_e: Error = new Error('Error occurred');
+let in_d: Date = new Date();
+let in_r: RegExp = /[a-z]/;
+```
+对于 DOM 和 BOM内置对象，Typescript 中对应了 `Document`,`HTMLElement`,`Event`,`NodeList`,`MouseEvent`等。举例：
+```
+let body: HTMLElement = document.body;
+let allDiv: NodeList = document.querySelectorAll('div');
+document.addEventListener('click', function(e: MouseEvent) {
+  // Do something
+});
+```
 
 ### 接口
+在面向对象语言中，接口（Interfaces）是一个很重要的概念，它是对行为的抽象，而具体如何行动需要由类（classes）去实现（implements）。在 TypeScriprt 中，类是一个非常灵活的概念，不仅可以对类的一部分进行抽象，还可以定义对象的形状。
+
+
+
+> 学习整理自：https://legacy.gitbook.com/book/xcatliu/typescript-tutorial
+
