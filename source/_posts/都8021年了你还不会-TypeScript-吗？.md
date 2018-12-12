@@ -166,7 +166,22 @@ document.addEventListener('click', function(e: MouseEvent) {
 ```
 
 ### 接口
-在面向对象语言中，接口（Interfaces）是一个很重要的概念，它是对行为的抽象，而具体如何行动需要由类（classes）去实现（implements）。在 TypeScriprt 中，类是一个非常灵活的概念，不仅可以对类的一部分进行抽象，还可以定义对象的形状。
+在面向对象语言中，接口（Interfaces）是一个很重要的概念，它是对行为的抽象，而具体如何行动需要由类（classes）去实现（implements）。在 TypeScriprt 中，类是一个非常灵活的概念，不仅可以对类的一部分进行抽象，还可以定义对象的形状。一般情况下，接口都以大写字母开头命名的格式。
+举个🌰：
+```
+// 定义接口
+interface Animal {
+    name: string;
+    color:string;
+}
+// Animal接口作为类型使用
+let cat_a: Animal={
+    name:'cat',
+    color:'yellow'
+};
+```
+
+
 
 
 
