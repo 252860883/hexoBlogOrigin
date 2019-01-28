@@ -9,7 +9,14 @@ tags: ['vue','javascript']
 
 简单来讲，如果有了key，diff算法会直接拿key值来做对比，而没有key的话，只能用其他的办法，在性能上肯定会有更多的损耗。同时注意到最后一句话，有相同父元素的子元素必须有独特的key，所以说如果相同的父元素下，引用了两次相同的子组件，那么这两个组件同样也需要加key来作区分，否则可能会造成未知的错误（如果出现未知的错误，可以加key试试）。
 
-相信平时大家有一个偷懒的写法就是直接把index作为key值，但是结合key的实际用途发现，以index作为key的话，无法进行新旧比较，所以这个写法可以说是无效的，严格来讲最好使用元素的唯一id做为key值。
+相信平时大家有一个偷懒的写法就是直接把index作为key值，但是结合key的实际用途发现，以index作为key的话，无法进行新旧比较，所以这个写法可以说是无效的，严格来讲最好使用元素的唯一id做为key值。具体我们可以看下图的例子：
+``` 
+key:0 name:LiMing     key:0 name:LiMing
+key:1 name:HanDan     key:1 name:YeXuan
+key:2 name:ZhangYi    key:2 name:HanDan
+                      key:3 name:ZhangYi
+```
+可以看到，我们从第二项插入了一个 dom 如果使用 index 做为 key 值时，除了第一项其余的需要全部重绘。
 
 延伸个有意思的问题，**v-for循环体中的input如何实现双向绑定呢？**
 ```
