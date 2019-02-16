@@ -36,18 +36,55 @@ var b = { m: 20 }; // 变量b存在于栈中，{m: 20} 作为对象存在于堆�
  - **浅拷贝**
 浅拷贝只能复制一层对象的属性，深层的属性只能被引用，当被引用的深层属性值改变时，复制者也会随着改变。通俗来讲，浅拷贝就是拷贝第一层的基本类型值，以及第一层的引用类型地址。一张图看原理：
 ![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1fq8t5rivvmj20gf075weq.jpg)
-⚠️注意，平时我们经常使用的 `Object.assign()` 方法也是进行浅拷贝，不是深拷贝。
+
+同时需要注意浅拷贝和赋值操作是不一样的：赋值操作只是把栈中的地址传给新的对象，所以两个对象哪一个进行修改都会被改变。而浅拷贝会创建一个新的对象，和赋值不一样的地方是如果对应的相关属性值是基本类型，互相不干涉。
+
+常见的浅拷贝操作有：`Object.assign()` 、 `Array.prototype.concat()` 、 `Array.prototype.slice()`等。
+
  - **深拷贝**
  深拷贝相反，会完完整整的深层遍历复制一个对象，而不是深层引用。如图：
 ![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1fq8t5rz7uuj20g906wmxe.jpg)
 
  - **实现深拷贝**
-	 1. 循环遍历
-	 2. 利用JSON API
+	 1. 利用JSON API
 		```
 		let newobj=JSON.parse(JSON.stringify(obj));
 		```
-	 3. 递归遍历
+		注意：由于 JSON.stringify() 不接受函数，所以该方法不能拷贝函数
+	 2. 递归遍历
+	 	```
+		//定义检测数据类型的功能函数
+		function checkedType(target) {
+			return Object.prototype.toString.call(target).slice(8, -1)
+		}
+		//实现深度克隆---对象/数组
+		function clone(target) {
+			//判断拷贝的数据类型
+			//初始化变量result 成为最终克隆的数据
+			let result, targetType = checkedType(target)
+			if (targetType === 'Object') {
+				result = {}
+			} else if (targetType === 'Array') {
+				result = []
+			} else {
+				return target
+			}
+			//遍历目标数据
+			for (let i in target) {
+				//获取遍历数据结构的每一项值。
+				let value = target[i]
+				//判断目标结构里的每一值是否存在对象/数组
+				if (checkedType(value) === 'Object' ||
+				checkedType(value) === 'Array') { //对象/数组里嵌套了对象/数组
+				//继续遍历获取到value值
+				result[i] = clone(value)
+				} else { //获取到value值是基本的数据类型或者是函数。
+				result[i] = value;
+				}
+			}
+			return result
+		}
+		```
 
 ### 内存的生命周期
 - 环境中分配的内存一般有如下生命周期：
@@ -66,6 +103,7 @@ JavaScript有自动垃圾收集机制，那么这个自动垃圾收集机制的�
 
 ### 内存泄漏
 >对于持续运行的服务进程（daemon），必须及时释放不再用到的内存。否则，内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。 不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。
+
 常见内存泄漏原因：
 1. setTimeout的第一个参数使用字符串而非函数的话，会引发内存泄漏。
 2. 闭包
