@@ -212,7 +212,21 @@ let tom: Person = {
 // tom.id = 001  // Error
 ```
 和类一样，接口也是可以继承的：
+```
+// extends 类的继承
+class Cat extends Animal {
+    constructor(name) {
+        super(name);
+        // this.cat = 'meow';
+    }
+    sayHi() {
+        return `Meow~ ${super.sayHi()}`
+    }
+}
 
+let tomCat = new Cat('tom');
+console.log(tomCat.sayHi()) // Meow~ My name is tom
+```
 
 
 
