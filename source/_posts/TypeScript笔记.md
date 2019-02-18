@@ -228,6 +228,84 @@ let tomCat = new Cat('tom');
 console.log(tomCat.sayHi()) // Meow~ My name is tom
 ```
 
+### 类
+下面是一个类的简易Demo：
+```
+class Animal {
+    name: string;
+    constructor(name) {
+        this.name = name;
+    }
+    sayHi() {
+        return `My name is ${this.name}`
+    }
+}
+let cat = new Animal('cat');
+console.log(cat.sayHi()) // My name is cat
+```
+下面讲讲几个关于类的知识点：
+* **继承** 
+    基于类的程序设计中一种最基本的模式是允许使用继承来扩展现有的类。使用 `extends` 关键字实现继承。 
+* **修饰符** 
+    1. **public**： typescript 默认情况下成员都是 public 可访问的。
+    2. **private**： 当成员被标记为 private 时，它就不能在声明它的类的外部访问。
+    3. **protected**： protected 修饰符与 private 的区别是 protected 成员在派生类中仍然可以访问。
+    4. **readonly**： readonly 关键字将属性设置为只读的。 只读属性必须在声明时或构造函数里被初始化。
+ 
+具体实现可以看如下demo：
+```
+class Animal {
+    protected name: string;  // 派生类中可访问
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+class Cat extends Animal {
+    public food: string;
+    private secret:string;//私有属性，外部不能访问
+    constructor(name) {
+        super(name);
+        this.food = 'fish';
+        this.secret = 'I love dog'
+    }
+    sayHi() {
+        return `Meow~ ${super.sayHi()}`
+    }
+}
+
+let tomCat = new Cat('tom');
+console.log(tomCat.sayHi()) // Meow~ My name is tom
+console.log("cat's food is " + tomCat.food)
+// console.log(tomCat.secret); // Error
+```
+
+同时，TypeScript支持通过 **getters/setters** 来截取对对象成员的访问，可以有效的控制对对象成员的访问：
+```
+class Employee {
+    private _fullName: string;
+
+    get fullName(): string {
+        return this._fullName
+    }
+
+    set fullName(newName: string) {
+        if (newName != 'admin') {
+            this._fullName = newName
+        } else {
+            console.log('NewName is Invalid')
+        }
+    }
+}
+
+let employee = new Employee();
+employee.fullName = 'danny';
+console.log(employee.fullName) // danny
+employee.fullName = 'admin' // NewName is Invalid
+```
+
+### 类与接口的结合
+
 
 
 > 学习整理自：
