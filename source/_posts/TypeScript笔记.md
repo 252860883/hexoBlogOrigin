@@ -305,7 +305,7 @@ employee.fullName = 'admin' // NewName is Invalid
 ```
 
 ### 类与接口的结合
-
+>
 
 
 > 学习整理自：
