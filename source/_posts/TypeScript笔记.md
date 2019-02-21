@@ -173,6 +173,14 @@ function getLength(something: string | number): number {
 }
 ```
 
+#### 泛型
+有时候我们需要使返回值的类型与传入参数的类型是相同的，这里就引入了**类型变量**来表示：
+```
+function identity<T>(arg: T): T {
+    return arg;
+}
+```
+
 #### 内置对象
 我们知道 JavaScript 中有很多的内置对象可供使用，那么在 TypeScript 中呢，可以直接当做定义好了的类型。
 ```
