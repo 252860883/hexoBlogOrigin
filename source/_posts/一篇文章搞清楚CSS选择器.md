@@ -45,4 +45,6 @@ div > span {
 
 ![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1g0ezl496zvj209e02c0sn.jpg)
 
+通过图可以看到 3-1 
+
 
