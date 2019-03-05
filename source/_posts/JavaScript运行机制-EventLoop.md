@@ -38,11 +38,11 @@ father();
 除了异步任务，一些用户产生的事件比如 click 、 scroll 等只要涉及到了回调函数，都会统一放进任务队列等待主线程处理。
 
 有一种特殊的任务队列叫做 **microtask（微任务）**，microtask 的特殊之处在于会在执行栈结束后优先其他队列执行,即执行栈为空的一瞬间就会执行 microtask。常见的 microtask 有：`Process.nextTick（Node独有）`、`Promise`、`Object.observe(废弃)`、`MutationObserver`。
-
+h
 ### Event Loop
 前面我们已经了解到了同步任务和异步任务在引擎中是如何执行的，而事件循环（Event Loop）呢就是在一遍遍的循环执行上面讲到的操作，每次循环发现新的函数，同步任务直接放入执行栈，异步任务的回调函数放入任务队列，再执行，周而复始。在 Event Loop 中，一次循环的执行称之为 tick， 在这个循环里执行的代码称作 task。
-
-
+最后来张图表示下吧：
+![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1g0s6zcta35j20xa0maq4d.jpg)
 
 
 >参考:
