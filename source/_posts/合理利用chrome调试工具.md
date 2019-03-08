@@ -13,3 +13,5 @@ top:
 * **【 $_ 】** `$_` 是对上次执行操作的取直。
 * **【 $i 】** 安装插件[Console Importer](https://chrome.google.com/webstore/detail/console-importer/hgajpakhafplebkdljleajgbpdmplhie/related) 后，可以使用 `$i` 来引入一些 npm 库到 console中来使。
 
+![image](http://wx1.sinaimg.cn/mw690/a73bc6a1ly1g0ui6lq27cj21hc0u0jzc.jpg)
+
