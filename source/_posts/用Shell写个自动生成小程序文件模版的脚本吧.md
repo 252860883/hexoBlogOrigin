@@ -192,27 +192,85 @@ function mkdirs(folder, targetFolderRoot) {
 文件夹创建好，我们就需要核心的复制逻辑了：
 
 ```
-
 /**
  * 克隆实际的底层文件列表
  * @param {String} folder 终端输入的路径
- * @param {String} targetFolderRoot 目标文件目录
- * @param {String} temFolder 对应模版的目录
+ * @param {String} type 用户选择的类型
  */
-function copyRealFile(folder, targetFolderRoot, temFolder) {
+
+function copyRealFile(folder,type ) {
+    let targetFolderRoot =  targetFolderRoots[type];
+    let temFolder = temFolders[type];
     let fileName = folder.split('/').pop()
     let targetFolder = `${targetFolderRoot + folder}/${fileName}`;
     fs.readdirSync(temFolder).forEach((val, index) => {
         const extname = path.extname(val);
         let temRealFile = path.join(temFolder, `${val}`);
         let targetFile = targetFolder + extname;
-        fs.writeFileSync(targetFile, fs.readFileSync(temRealFile));
+        console.log(targetFolder);
+        fs.writeFileSync(targetFile, fs.readFileSync(temRealFile), (err) => {
+            if (err) throw err;
+            console.log('文件已保存');
+        });
+
     })
 }
 
 ```
+等一下，我们好像落了点东西？如果我们在小程序中创建 page 的话，app.json 的 pages会默认增加新建的page路径：
+```
+// app.json
 
-最后在我们的 `inquirer`回调中按如下代码传参：
+{
+	"pages": [
+		"pages/index/index",
+		"pages/page2/index",
+		"pages/logs/logs" /* 这个是新增的页面路径 */
+	],
+	"window": {
+		"backgroundTextStyle": "light",
+		"navigationBarBackgroundColor": "#000",
+		"navigationBarTitleText": "WeChat",
+		"navigationBarTextStyle": "white"
+	},
+	"usingComponents": {
+		"ec-canvas": "libs/ec-canvas/ec-canvas"
+	}
+}
+```
+
+所以我们还需要构建一个函数在page文件创建后更新app.json。这里我们创建 addPageInfoToApp 函数，将新增的page路径添加进去。
+```
+function addPageInfoToApp(fileName) {
+    fs.readFile('./app.json', function (err, data) {
+        if (err) {
+            return console.error(err)
+        }
+        var person = data.toString();//将二进制的数据转换为字符串
+        person = JSON.parse(person);//将字符串转换为json对象
+        person.pages.push(fileName);
+        const outputData = JSON.stringify(person,null,"\t");//将json数据转换为字符串类型，需要保留回车符，注意格式
+        fs.writeFile('./app.json',outputData,function(err){
+            if(err){
+                console.error(err);
+            }
+            console.log('文件建好啦！');
+        })
+        console.log(person.pages);
+    })
+}
+```
+
+然后在 copyRealFile 函数的最后添加逻辑 ：
+```
+function copyRealFile(folder,type ) {
+    ...
+
+    type == 'page' && addPageInfoToApp(targetFolder)
+}
+```
+
+然后在我们的 `inquirer`回调中按如下代码传参：
 ```
 ...
 .then((folder) => {
@@ -221,6 +279,9 @@ function copyRealFile(folder, targetFolderRoot, temFolder) {
     })
 ...
 ```
+
+
+
 最后，大功告成！我们就可以执行 `npm run create` 指令来体验一下了。
 >源码：
 https://github.com/MagicalDinosaur/smallProgramDemo/blob/master/cli/clone.js
