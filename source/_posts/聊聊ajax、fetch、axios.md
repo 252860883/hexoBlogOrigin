@@ -46,3 +46,96 @@ xmlhttp.onreadystatechange=function(){
 像上面这样使用 XMLHttpRequest 是来进行 ajax 请求是非常痛苦的，每做一个请求都要写这么长的代码！所以后来有许多的库都对其进行的封装，比如我们最常见的 JQuery。
 
 ### $.ajax()
+JQuery ajax 是对原生XHR的封装，除此以外还增添了对JSONP的支持，相较于直接使用ajax的“长篇大论”，直接一个方法就可以搞定请求了:
+```
+$.ajax({
+   type: 'POST',
+   url: url,
+   data: data,
+   dataType: dataType,
+   success: function () {},
+   error: function () {}
+});
+```
+虽然JQuery便捷了开发，但依旧受限于 XHR 的缺点。同时对基于事件的异步做的不好，而且如果我们只是使用 `$.ajax()` 这个方法还需要将整个 Jquery 文件引入。总之，如果不是在 JQuery 项目，建议还是不要使用此方法。
+
+### Axios
+自从尤大开始停止维护 vue-resource 并推荐大家使用 axios 之后，axios 逐渐被大家所认识。axios 是一个基于Promise 用于浏览器和 nodejs 的 HTTP 客户端，其实本质上底层也是通过 XHR 来实现的。尤大推荐自然有他的原因，axios 使用 Promise 封装，满足了现在的 ES6 的规范，同时还增加了很多的方法和功能，具体如下：
+1.拦截请求和响应
+2.转换请求和响应数据
+3.支持 Promise API
+4.提供了一些并发操作的方法
+5.自动转换JSON数据
+6.客户端支持防范XSRF
+7.支持取消请求
+8.从node.js发出http请求
+
+```
+<!-- 基础示例 -->
+
+const axios = require('axios');
+
+axios.get('/user?ID=12345')
+  .then(function (response) {
+    // handle success
+    console.log(response);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
+
+<!-- 拦截器 在请求或响应被 then 或 catch 处理前拦截它们-->
+
+// 添加请求拦截器
+axios.interceptors.request.use(function (config) {
+    // 在发送请求之前做些什么
+    return config;
+  }, function (error) {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  });
+
+// 添加响应拦截器
+axios.interceptors.response.use(function (response) {
+    // 对响应数据做点什么
+    return response;
+  }, function (error) {
+    // 对响应错误做点什么
+    return Promise.reject(error);
+  });
+
+<!-- 并发处理 -->
+
+axios.all([getRequest1(), getRequest2()])
+  .then(axios.spread(function (acct, perms) {
+    // Both requests are now complete
+  }));
+
+```
+
+更多关于 axios 的使用方法，直接访问 [github](https://github.com/axios/axios) 查阅吧。
+
+### Fetch
+Fetch API 提供了一个获取资源的接口（包括跨域请求）。任何使用过 XMLHttpRequest 的人都能轻松上手，但新的API提供了更强大和灵活的功能集。
+
+```
+fetch(url, {
+  method: "POST",
+  body: JSON.stringify(data),
+  headers: {
+    "Content-Type": "application/json"
+  },
+  credentials: "same-origin"
+}).then(function(response) {
+  response.status     //=> number 100–599
+  response.statusText //=> String
+  response.headers    //=> Headers
+  response.url        //=> String
+  return response.text() // .text() 或者 .json() 可以获得响应体，并返回一个 promise 对象。
+}, function(error) {
+  error.message //=> String
+})
+```
+
+
