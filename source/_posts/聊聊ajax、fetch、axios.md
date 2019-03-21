@@ -117,7 +117,7 @@ axios.all([getRequest1(), getRequest2()])
 更多关于 axios 的使用方法，直接访问 [github](https://github.com/axios/axios) 查阅吧。
 
 ### Fetch
-Fetch API 提供了一个获取资源的接口（包括跨域请求）。任何使用过 XMLHttpRequest 的人都能轻松上手，但新的API提供了更强大和灵活的功能集。
+Fetch API 已经作为现代浏览器中异步网络请求的标准方法，其使用 Promise 作为基本构造要素。Fetch 提供了对 Request 和 Response （以及其他与网络请求有关的）对象的通用定义。发送请求或者获取资源，需要使用 WindowOrWorkerGlobalScope.fetch 方法，它在Window 和 WorkerGlobalScope接口上，因此在几乎所有环境中都可以用这个方法获取到资源。无论是service workers、Cache API、又或者是其他处理请求和响应的方式。
 
 ```
 fetch(url, {
@@ -137,5 +137,27 @@ fetch(url, {
   error.message //=> String
 })
 ```
+Fetch 用途这么广泛，既可以在 window 又可以在 service worker ，但是 Fetch 现在**没有办法终止一个请求，并且不能监测上传进度**。如果我们需要这些功能可以选择 axios。不过已经有些方案来解决这些问题了。
+
+我们在使用 Fetch 时可以引入 `AbortController` 和 `AbortSignal`，这个通用的API来通知中止事件:
+
+```
+const controller = new AbortController()
+const signal = controller.signal
+fetch('./file.json', { signal })
+
+// 5s后终止请求
+setTimeout(() => controller.abort(), 5 * 1000)
+
+```
+
+### 总结
+1. ajax 是通过 XHR 实现与服务器的异步请求
+2. $.ajax() 是对原生的 ajax 进行的封装，简化了代码编写
+3. aixos 也是对 XHR 的进一步封装，支持 Promise API, 同时还增加了并发请求、拦截请求和响应、转换请求响应数据、取消请求等功能。
+4. fetch 是 ES规范中的语法，与 XHR无关，几乎所有环境中都可以用，但原生的 Fetch 不能终止请求也不能检测上传进度。
 
 
+>参考:
+>[ajax和axios、fetch的区别](https://www.jianshu.com/p/8bc48f8fde75)
+>[认识 Fetch API](https://mp.weixin.qq.com/s/qM_tvb2-A__hdjjgnS1y6w)
