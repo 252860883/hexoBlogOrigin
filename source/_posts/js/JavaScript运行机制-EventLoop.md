@@ -35,16 +35,45 @@ father();
 
 前面已经知道了，同步任务会被依次放到执行栈执行。那异步任务执行得到的结果回调函数会被放到任务队列中。当我们的执行栈中的所有同步任务执行完毕，引擎就会读取任务队列的事件，放入执行栈进行执行。任务队列是一个先进先出的数据结构，排在前面的事件会被优先处理。当然涉及到定时器任务时，只会在规定时间之后被执行。
 
-除了异步任务，一些用户产生的事件比如 click 、 scroll 等只要涉及到了回调函数，都会统一放进任务队列等待主线程处理。
+除了异步任务，一些用户产生的事件比如 click 、 scroll 等只要涉及到了回调函数，都会统一放进任务队列等待主线程处理。而任务队列也分为两种，宏任务队列与微任务队列。不同的任务会被分配进入不同的队列。
+**- 宏任务 与 微任务**
+**macrotask(宏任务)**：包括`整体代码script`，`setTimeout`，`setInterval`，`setImmediate`,`I/O`,`requestAnimationFrame`。
+**microtask（微任务）**，每个宏任务中都可以执行一个微任务，当宏任务执行完成会去执行包含的微任务，微任务执行完毕后这一轮事件循环才算结束。**但是当 microtask 执行完之前是不会执行下一个宏任务的**。 常见的 microtask 有：`Process.nextTick（Node独有）`、`Promise`、`Object.observe(废弃)`、`MutationObserver`。同时由于 `async\await`本质上是基于 promise 的一些封装，所以也属于微任务。
 
-有一种特殊的任务队列叫做 **microtask（微任务）**，microtask 的特殊之处在于会在执行栈结束后优先其他队列执行,即执行栈为空的一瞬间就会执行 microtask。常见的 microtask 有：`Process.nextTick（Node独有）`、`Promise`、`Object.observe(废弃)`、`MutationObserver`。
+知道了微任务与宏任务，来做一个非常经典的面试题：
+```
+setTimeout(function() {
+    console.log(1);
+})
+
+new Promise(function(resolve) {
+    console.log(2);
+}).then(function() {
+    console.log(3);
+})
+
+console.log(4);
+```
+我们来梳理一下：
+1.首先整段代码作为一个宏任务，放进执行栈执行
+2.setTimout，将其回调函数放入宏任务队列
+3.执行 new Promise() ,输出 2, then函数分发到微任务队列
+4.执行 console.log(4),输出 4
+5.第一轮的宏任务结束，开始查询微任务队列，then函数在，执行，输出 3 
+6.第一轮事件循环结束，开始第二轮
+7.宏任务队列查询，setTimeout在，执行，输出1
+
+所以答案就是：`2 4 3 1`
+
+
 ### Event Loop
-前面我们已经了解到了同步任务和异步任务在引擎中是如何执行的，而事件循环（Event Loop）呢就是在一遍遍的循环执行上面讲到的操作，每次循环发现新的函数，同步任务直接放入执行栈，异步任务的回调函数放入任务队列，再执行，周而复始。在 Event Loop 中，一次循环的执行称之为 tick， 在这个循环里执行的代码称作 task。
+通过上面，我们已经对执行栈、宏任务、微任务队列有所了解，那事件循环是什么呢？每次宏任务结束（包含微任务结束）之后，系统会检查是否有要执行的宏任务，这个检查的过程是持续的，每完成一个任务都会进行一次检查，这样的操作被称为**事件循环**。
 最后来张图表示下吧：
-![image](http://wx4.sinaimg.cn/mw690/a73bc6a1ly1g0s6zcta35j20xa0maq4d.jpg)
+![image](http://wx2.sinaimg.cn/mw690/a73bc6a1ly1g1wqhooik6j20h90cfaak.jpg)
 
 
 >参考:
+>[这一次，彻底弄懂 JavaScript 执行机制](https://juejin.im/post/59e85eebf265da430d571f89#comment)
 >[如何理解js的执行上下文与执行栈](https://www.oecom.cn/understand-js-run-stack-and-world/)
 >[一次搞懂Event loop](https://www.imooc.com/article/40020#)
 
