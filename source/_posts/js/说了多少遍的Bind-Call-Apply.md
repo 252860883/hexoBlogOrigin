@@ -5,6 +5,7 @@ tags: javascript
 top:
 ---
 >正如标题所说，说了多少遍！多少遍！多少遍！唉，所以有了这边复习文，算是立下血志吧。
+`bind`,`call`,`apply`三个方法都是用来将一个指定的 this 来调用或者创建一个函数。
 
 ## Bind方法
 
@@ -13,15 +14,15 @@ eg:
 ```
 var user = {
   data: 666,
-  showData: function () {
-    console.log(this.data)
+  showData: function (other) {
+    console.log(this.data + other)
   }
 }
 
 var user2 = user.showData
 user2() // undefined,指向全局函数
 var user3 = user.showData.bind(user)
-user3() // 666
+user3('777') // 666777
 
 ```
 
