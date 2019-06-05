@@ -1,5 +1,5 @@
 ---
-title: 关于array的几个API
+title: 关于array的常用的几个API
 date: 2019-04-08 19:24:52
 tags:
 top:
@@ -60,4 +60,60 @@ console.log(array1.reduce(reducer));
 
 ### Array.prototype.reduceRight
 和 reduce 作用一样，区别是从数组最右开始降序执行。
+
+### Array.prototype.includes(ES6新增)
+用来判断一个数组是否包含一个指定的值，根据情况，如果包含则返回 true，否则返回false。
+第二个参数表示从第几个索引值开始查找。
+
+```
+[1,2,3].includes(3) 
+// true
+[1,2,3].includes(4) 
+// false
+
+
+[1,2,3,4].includes(1,1)
+// false
+```
+
+### Array.isArray(ES6新增)
+用来检测值是否是一个Array，返回一个布尔类型的值。 相较于 `instanceof`, Array.isArray 可以检测 iframes。
+
+```
+Array.isArray([1, 2, 3]);  
+// true
+Array.isArray({foo: 123}); 
+// false
+```
+
+### Array.prototype.fill(ES6新增)
+用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。不包括终止索引。
+```
+[0,1,2,3,4,5,6].fill('*',1,5)
+// [0, "*", "*", "*", "*", 5, 6]
+```
+
+### Array.prototype.entries/keys/values(ES6新增)
+```
+let arr=['a', 'b', 'c']
+
+//取键
+for(let key of arr.keys()){}  
+
+//取值；不能直接使用，有兼容性问题，甚至谷歌
+for(let value of arr.values()){}         
+
+//都取
+for(let [key, value] of arr.entries()){}      
+```
+
+### Array.of(ES6新增)
+创建一个具有可变数量参数的新数组实例，而不考虑参数的数量或类型。
+```
+Array.of(7);       // [7] 
+Array.of(1, 2, 3); // [1, 2, 3]
+
+Array(7);          // [ , , , , , , ]
+Array(1, 2, 3);    // [1, 2, 3]
+```
 
